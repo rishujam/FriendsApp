@@ -8,11 +8,9 @@ import android.view.ViewGroup
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import store.cru.crushcheck.databinding.FragmentHomeBinding
-import store.cru.crushcheck.databinding.FragmentLoginBinding
 
 class HomeFragment : Fragment() {
 
-    private lateinit var auth: FirebaseAuth
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -21,14 +19,8 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater,container,false)
-        auth= FirebaseAuth.getInstance()
-        var currentUser=auth.currentUser
-        if(currentUser==null){
-            Navigation.findNavController(binding.root).navigate(R.id.action_homeFragment_to_loginFragment)
-        }
         return binding.root
     }
-
     override fun onDestroy() {
         super.onDestroy()
         _binding= null
