@@ -33,8 +33,10 @@ class MainActivity : AppCompatActivity() {
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+
                 startActivity(Intent(this@MainActivity,HostActivity::class.java))
                 finish()
+
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
@@ -82,6 +84,10 @@ class MainActivity : AppCompatActivity() {
             .setCallbacks(callbacks) // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
+    }
+
+    private fun saveUserData(){
+
     }
 
     override fun onStart() {
