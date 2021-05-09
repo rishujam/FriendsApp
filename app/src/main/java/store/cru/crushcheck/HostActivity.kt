@@ -3,7 +3,9 @@ package store.cru.crushcheck
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import store.cru.crushcheck.databinding.ActivityHostBinding
 
@@ -37,6 +39,12 @@ class HostActivity : AppCompatActivity() {
             }
             true
         }
+        val headerView = binding.navView.getHeaderView(0)
+        headerView.findViewById<ConstraintLayout>(R.id.navHead).setOnClickListener {
+            setCurrentFragment(profileFragment)
+        }
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

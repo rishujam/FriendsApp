@@ -10,12 +10,18 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import store.cru.crushcheck.databinding.ActivityVerifyLoginBinding
+import store.cru.crushcheck.firebase.FirebaseSource
 
 class VerifyLogin : AppCompatActivity() {
 
     private lateinit var binding: ActivityVerifyLoginBinding
     private lateinit var auth : FirebaseAuth
+    private val firebaseSource = FirebaseSource()
+    private lateinit var userProfile:UserProfile
+    private val userCollectionRef = Firebase.firestore.collection("users")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,6 +30,7 @@ class VerifyLogin : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
 
         val storedVerificationId = intent.getStringExtra("ID")
+        userProfile = UserProfile("@${intent.getStringExtra("username").toString()}",intent.getStringExtra("phone").toString())
 
         binding.apply {
             binding.btnVerify.setOnClickListener {
@@ -44,6 +51,7 @@ class VerifyLogin : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
+                    firebaseSource.saveUserProfile(userProfile,applicationContext)
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 } else {

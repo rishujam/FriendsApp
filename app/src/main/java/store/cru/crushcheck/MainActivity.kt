@@ -13,6 +13,7 @@ import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
 import store.cru.crushcheck.databinding.ActivityMainBinding
+import store.cru.crushcheck.firebase.FirebaseSource
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -20,7 +21,6 @@ class MainActivity : AppCompatActivity() {
     private  lateinit var binding: ActivityMainBinding
     private lateinit var auth : FirebaseAuth
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
-    lateinit var bundle:Bundle
     lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,18 +29,16 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         auth = FirebaseAuth.getInstance()
-        bundle = Bundle()
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-
                 startActivity(Intent(this@MainActivity,HostActivity::class.java))
                 finish()
 
             }
 
             override fun onVerificationFailed(e: FirebaseException) {
-                Toast.makeText(this@MainActivity, "Failed", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@MainActivity, e.message, Toast.LENGTH_LONG).show()
             }
 
             override fun onCodeSent(
@@ -53,6 +51,8 @@ class MainActivity : AppCompatActivity() {
 
                 var intent = Intent(this@MainActivity,VerifyLogin::class.java)
                 intent.putExtra("ID",verificationId)
+                intent.putExtra("username",binding.etUsername.text.toString())
+                intent.putExtra("phone",binding.etPhone.text.toString())
                 startActivity(intent)
 
             }
@@ -84,10 +84,6 @@ class MainActivity : AppCompatActivity() {
             .setCallbacks(callbacks) // OnVerificationStateChangedCallbacks
             .build()
         PhoneAuthProvider.verifyPhoneNumber(options)
-    }
-
-    private fun saveUserData(){
-
     }
 
     override fun onStart() {
