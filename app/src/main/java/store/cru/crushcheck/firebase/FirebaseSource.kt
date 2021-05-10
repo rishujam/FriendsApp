@@ -17,7 +17,7 @@ class FirebaseSource {
 
     fun saveUserProfile(userProfile: UserProfile,context:Context) = CoroutineScope(Dispatchers.IO).launch {
         try {
-            userCollectionRef.add(userProfile).await()
+            userCollectionRef.document(userProfile.instaName).set(userProfile).await()
             withContext(Dispatchers.Main) {
                 Toast.makeText(context.applicationContext, "Successfully saved data.", Toast.LENGTH_LONG).show()
             }

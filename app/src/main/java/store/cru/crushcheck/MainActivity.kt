@@ -6,14 +6,21 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
-import androidx.navigation.Navigation
+import com.google.android.gms.tasks.Task
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthOptions
 import com.google.firebase.auth.PhoneAuthProvider
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import store.cru.crushcheck.databinding.ActivityMainBinding
-import store.cru.crushcheck.firebase.FirebaseSource
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -22,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private lateinit var resendToken: PhoneAuthProvider.ForceResendingToken
     lateinit var callbacks: PhoneAuthProvider.OnVerificationStateChangedCallbacks
+    private val userCollectionRef = Firebase.firestore.collection("users")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +68,28 @@ class MainActivity : AppCompatActivity() {
 
         binding.btnGetotp.setOnClickListener {
             if(binding.etPhone.text.isNotEmpty() && binding.etUsername.text.isNotEmpty()){
-                signUp()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val querySnapshot = userCollectionRef.document("@"+binding.etUsername.text.toString()).get().await()
+                    querySnapshot?.let {
+                        val username = querySnapshot.get("instaName").toString()
+                        val phone = querySnapshot.get("phone").toString()
+                        if(username=="@"+binding.etUsername.text.toString()){
+                            if(phone==binding.etPhone.text.toString()){
+                                withContext(Dispatchers.Main){
+                                    signUp()
+                                }
+                            }else{
+                                withContext(Dispatchers.Main){
+                                    Toast.makeText(this@MainActivity,"Acc already exists with Phone: ${phone} ",Toast.LENGTH_LONG).show()
+                                }
+                            }
+                        }else{
+                            withContext(Dispatchers.Main){
+                                signUp()
+                            }
+                        }
+                    }
+                }
             }
         }
     }

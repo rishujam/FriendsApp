@@ -5,13 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.core.view.isVisible
-import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.PhoneAuthCredential
 import com.google.firebase.auth.PhoneAuthProvider
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 import store.cru.crushcheck.databinding.ActivityVerifyLoginBinding
 import store.cru.crushcheck.firebase.FirebaseSource
 
@@ -21,7 +18,6 @@ class VerifyLogin : AppCompatActivity() {
     private lateinit var auth : FirebaseAuth
     private val firebaseSource = FirebaseSource()
     private lateinit var userProfile:UserProfile
-    private val userCollectionRef = Firebase.firestore.collection("users")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
