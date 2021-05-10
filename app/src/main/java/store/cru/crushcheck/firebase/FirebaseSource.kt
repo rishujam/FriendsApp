@@ -3,6 +3,7 @@ package store.cru.crushcheck.firebase
 import android.content.Context
 import android.widget.Toast
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,6 +25,20 @@ class FirebaseSource {
         } catch(e: Exception) {
             withContext(Dispatchers.Main) {
                 Toast.makeText(context.applicationContext, e.message, Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    fun showUsers(list:ArrayList<UserProfile>,context: Context) = CoroutineScope(Dispatchers.IO).launch {
+        try {
+            val querySnapshot=userCollectionRef.get().await()
+            for(document in querySnapshot.documents){
+                val obj = document.toObject<UserProfile>()
+                obj?.let { list.add(it) }
+            }
+        }catch (e:java.lang.Exception){
+            withContext(Dispatchers.Main){
+                Toast.makeText(context.applicationContext,e.message,Toast.LENGTH_LONG).show()
             }
         }
     }
