@@ -1,4 +1,4 @@
-package store.cru.crushcheck
+package store.cru.crushcheck.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater

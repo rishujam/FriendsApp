@@ -1,5 +1,5 @@
 
-package store.cru.crushcheck
+package store.cru.crushcheck.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -19,6 +19,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
 import store.cru.crushcheck.databinding.ActivityMainBinding
+import store.cru.crushcheck.ui.HostActivity
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -38,7 +39,7 @@ class MainActivity : AppCompatActivity() {
         callbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
 
             override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                startActivity(Intent(this@MainActivity,HostActivity::class.java))
+                startActivity(Intent(this@MainActivity, HostActivity::class.java))
                 finish()
 
             }
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("TAG","onCodeSent:$verificationId")
                 resendToken = token
 
-                var intent = Intent(this@MainActivity,VerifyLogin::class.java)
+                var intent = Intent(this@MainActivity, VerifyLogin::class.java)
                 intent.putExtra("ID",verificationId)
                 intent.putExtra("username",binding.etUsername.text.toString())
                 intent.putExtra("phone",binding.etPhone.text.toString())
@@ -117,7 +118,7 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
         val currentUser = auth.currentUser
         if (currentUser!=null){
-            startActivity(Intent(this,HostActivity::class.java))
+            startActivity(Intent(this, HostActivity::class.java))
             finish()
         }
     }

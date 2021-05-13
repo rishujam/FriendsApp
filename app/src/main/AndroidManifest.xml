@@ -12,9 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.CrushCheck"
         android:usesCleartextTraffic="true">
-        <activity android:name=".HostActivity"></activity>
-        <activity android:name=".VerifyLogin" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".ui.HostActivity"></activity>
+        <activity android:name=".auth.VerifyLogin" />
+        <activity android:name=".auth.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

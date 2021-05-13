@@ -1,4 +1,4 @@
-package store.cru.crushcheck
+package store.cru.crushcheck.ui.fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,14 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.*
+import store.cru.crushcheck.auth.UserProfile
 import store.cru.crushcheck.databinding.FragmentHomeBinding
+import store.cru.crushcheck.ui.FriendsViewModel
+import store.cru.crushcheck.adapters.HomeAdapter
+import store.cru.crushcheck.ui.HostActivity
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private lateinit var homeAdapter: HomeAdapter
-    private lateinit var viewModel:FriendsViewModel
+    private lateinit var viewModel: FriendsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

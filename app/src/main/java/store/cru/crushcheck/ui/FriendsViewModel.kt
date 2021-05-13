@@ -1,4 +1,4 @@
-package store.cru.crushcheck
+package store.cru.crushcheck.ui
 
 import android.content.Context
 import androidx.lifecycle.ViewModel

@@ -1,4 +1,4 @@
-package store.cru.crushcheck
+package store.cru.crushcheck.auth
 
 data class UserProfile(
     val instaName:String ="",

@@ -1,22 +1,23 @@
-package store.cru.crushcheck
+package store.cru.crushcheck.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import store.cru.crushcheck.*
 import store.cru.crushcheck.databinding.ActivityHostBinding
 import store.cru.crushcheck.firebase.FirebaseSource
 import store.cru.crushcheck.repository.UserRepository
+import store.cru.crushcheck.ui.fragments.*
 
 class HostActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityHostBinding
     lateinit var toogle: ActionBarDrawerToggle
-    lateinit var viewModel:FriendsViewModel
+    lateinit var viewModel: FriendsViewModel
     private val source = FirebaseSource()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,7 +29,7 @@ class HostActivity : AppCompatActivity() {
         val viewModerProviderFactory = FriendsViewModelProviderFactory(userRepository)
         viewModel = ViewModelProvider(this,viewModerProviderFactory).get(FriendsViewModel::class.java)
 
-        toogle = ActionBarDrawerToggle(this, binding.drawerLayout,R.string.open,R.string.close)
+        toogle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.open, R.string.close)
         binding.drawerLayout.addDrawerListener(toogle)
         toogle.syncState()
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

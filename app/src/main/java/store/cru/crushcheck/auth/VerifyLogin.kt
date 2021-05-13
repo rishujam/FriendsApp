@@ -1,4 +1,4 @@
-package store.cru.crushcheck
+package store.cru.crushcheck.auth
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -17,7 +17,7 @@ class VerifyLogin : AppCompatActivity() {
     private lateinit var binding: ActivityVerifyLoginBinding
     private lateinit var auth : FirebaseAuth
     private val firebaseSource = FirebaseSource()
-    private lateinit var userProfile:UserProfile
+    private lateinit var userProfile: UserProfile
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

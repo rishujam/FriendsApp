@@ -1,9 +1,9 @@
-package store.cru.crushcheck
+package store.cru.crushcheck.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import store.cru.crushcheck.auth.UserProfile
 import store.cru.crushcheck.databinding.ItemUserBinding
 
 class HomeAdapter(
