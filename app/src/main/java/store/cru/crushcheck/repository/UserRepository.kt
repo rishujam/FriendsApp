@@ -9,6 +9,6 @@ class UserRepository(
     val source:FirebaseSource
 ) : ViewModel(){
 
-    fun getAllUsers(list:ArrayList<UserProfile>, context: Context)=
-        source.showUsers(list,context)
+    suspend fun getAllUsers()=
+        source.showUser()
 }

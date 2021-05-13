@@ -7,10 +7,8 @@ import kotlinx.coroutines.launch
 import store.cru.crushcheck.repository.UserRepository
 
 class FriendsViewModel(
-    val userRepository: UserRepository
+        val userRepository: UserRepository
 ) :ViewModel() {
 
-    fun getUsers(list:ArrayList<UserProfile>, context: Context) = viewModelScope.launch {
-
-    }
+    suspend fun getUsers() = userRepository.getAllUsers()
 }

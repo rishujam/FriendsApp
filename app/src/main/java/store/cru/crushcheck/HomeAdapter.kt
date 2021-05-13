@@ -9,6 +9,7 @@ import store.cru.crushcheck.databinding.ItemUserBinding
 class HomeAdapter(
         private val users: List<UserProfile>
 ) : RecyclerView.Adapter<HomeAdapter.UserViewHolder>(){
+
     inner class UserViewHolder(val binding:ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -20,7 +21,7 @@ class HomeAdapter(
         holder.binding.apply {
             tvItemName.text = users[position].name
             tvItemUsername.text = users[position].instaName
-            Glide.with(this.root).load(dpUrl).into(ivItemDP)
+            //Glide.with(this.root).load(dpUrl).into(ivItemDP)
         }
     }
 

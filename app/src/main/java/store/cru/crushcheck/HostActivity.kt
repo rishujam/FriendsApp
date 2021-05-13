@@ -7,17 +7,26 @@ import android.widget.LinearLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import store.cru.crushcheck.databinding.ActivityHostBinding
+import store.cru.crushcheck.firebase.FirebaseSource
+import store.cru.crushcheck.repository.UserRepository
 
 class HostActivity : AppCompatActivity() {
 
     private lateinit var binding:ActivityHostBinding
     lateinit var toogle: ActionBarDrawerToggle
+    lateinit var viewModel:FriendsViewModel
+    private val source = FirebaseSource()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHostBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        val userRepository = UserRepository(source)
+        val viewModerProviderFactory = FriendsViewModelProviderFactory(userRepository)
+        viewModel = ViewModelProvider(this,viewModerProviderFactory).get(FriendsViewModel::class.java)
 
         toogle = ActionBarDrawerToggle(this, binding.drawerLayout,R.string.open,R.string.close)
         binding.drawerLayout.addDrawerListener(toogle)
