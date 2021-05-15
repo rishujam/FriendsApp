@@ -7,13 +7,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.ktx.storage
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.DisposableHandle
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import store.cru.crushcheck.databinding.FragmentProfileBinding
 import store.cru.crushcheck.ui.FriendsViewModel
 import store.cru.crushcheck.ui.HostActivity
@@ -31,6 +27,13 @@ class ProfileFragment :Fragment() {
         _binding = FragmentProfileBinding.inflate(inflater,container,false)
 
         viewModel = (activity as HostActivity).viewModel
+        CoroutineScope(Dispatchers.IO).launch {
+            val profile = viewModel.getProfile()[0]
+            withContext(Dispatchers.Main){
+                binding.tvUsernameShow.text = profile.instaName
+                binding.tvPhoneShow.text = profile.phone
+            }
+        }
         binding.ibEditDP.setOnClickListener {
             Intent(Intent.ACTION_GET_CONTENT).also {
                 it.type = "image/*"
@@ -46,6 +49,13 @@ class ProfileFragment :Fragment() {
             data?.data?.let {
                 currFile = it
                 binding.ivDP.setImageURI(it)
+                val username = binding.tvUsernameShow.text.toString()
+                CoroutineScope(Dispatchers.IO).launch {
+                    viewModel.uploadDP(username, currFile!!)
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(context,"Image Uploaded",Toast.LENGTH_SHORT).show()
+                    }
+                }
             }
         }
     }

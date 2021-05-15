@@ -63,7 +63,7 @@ class VerifyLogin : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    firebaseSource.saveUserProfile(userProfile,applicationContext)
+                    firebaseSource.saveUserProfile(userProfile,applicationContext) // not by viewmodel  TODO
                     CoroutineScope(Dispatchers.IO).launch {
                         viewModel.saveProfile(userProfile)
                     }

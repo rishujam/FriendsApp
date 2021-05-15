@@ -1,5 +1,6 @@
 package store.cru.crushcheck.repository
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import store.cru.crushcheck.db.ProfileDatabase
@@ -22,5 +23,5 @@ class UserRepository(
     suspend fun saveProfile(profile:UserProfile) =
             db.getProfileDao().upsert(profile)
 
-    fun getProfile() = db.getProfileDao().getData()
+    suspend fun getProfile() = db.getProfileDao().getData()
 }

@@ -13,5 +13,5 @@ interface ProfileDao {
     suspend fun upsert(profile: UserProfile): Long
 
     @Query("SELECT * FROM  profile")
-    fun getData() : List<UserProfile>
+    suspend fun getData() : List<UserProfile>
 }

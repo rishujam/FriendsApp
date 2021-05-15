@@ -2,6 +2,7 @@ package store.cru.crushcheck.firebase
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import android.widget.Toast
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
@@ -43,12 +44,13 @@ class FirebaseSource {
     }
 
     suspend fun uploadDP(filename:String,uri:Uri){
-        uri?.let {
-            imageRef.child("profilePictures/$filename").putFile(it).await()
+        try {
+            uri?.let {
+                imageRef.child("profilePictures/$filename").putFile(it).await()
+            }
+        }catch (e:Exception){
+            Log.e("FirebaseSource","UploadDP error: ${e.message}")
         }
-    }
-
-    suspend fun showUserProfile(userName:String){
 
     }
 }

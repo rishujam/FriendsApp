@@ -1,5 +1,6 @@
 package store.cru.crushcheck.ui
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import store.cru.crushcheck.models.UserProfile
@@ -15,9 +16,10 @@ class FriendsViewModel(
     suspend fun uploadDP(fileName:String, uri:Uri) =
         userRepository.uploadDP(fileName,uri)
 
+    //DB
     suspend fun saveProfile(profile:UserProfile)=
             userRepository.saveProfile(profile)
 
-    fun getProfile() =
+    suspend fun getProfile() =
             userRepository.getProfile()
 }
