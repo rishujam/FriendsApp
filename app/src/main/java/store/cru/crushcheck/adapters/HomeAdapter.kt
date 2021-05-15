@@ -3,7 +3,7 @@ package store.cru.crushcheck.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import store.cru.crushcheck.auth.UserProfile
+import store.cru.crushcheck.models.UserProfile
 import store.cru.crushcheck.databinding.ItemUserBinding
 
 class HomeAdapter(

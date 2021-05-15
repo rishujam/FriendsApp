@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.*
-import store.cru.crushcheck.auth.UserProfile
+import store.cru.crushcheck.models.UserProfile
 import store.cru.crushcheck.databinding.FragmentHomeBinding
 import store.cru.crushcheck.ui.FriendsViewModel
 import store.cru.crushcheck.adapters.HomeAdapter

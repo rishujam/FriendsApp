@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import store.cru.crushcheck.*
 import store.cru.crushcheck.databinding.ActivityHostBinding
+import store.cru.crushcheck.db.ProfileDatabase
 import store.cru.crushcheck.firebase.FirebaseSource
 import store.cru.crushcheck.repository.UserRepository
 import store.cru.crushcheck.ui.fragments.*
@@ -19,15 +20,18 @@ class HostActivity : AppCompatActivity() {
     lateinit var toogle: ActionBarDrawerToggle
     lateinit var viewModel: FriendsViewModel
     private val source = FirebaseSource()
+    private lateinit var db :ProfileDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val userRepository = UserRepository(source)
+        db = ProfileDatabase(this)
+        val userRepository = UserRepository(source,db)
         val viewModerProviderFactory = FriendsViewModelProviderFactory(userRepository)
         viewModel = ViewModelProvider(this,viewModerProviderFactory).get(FriendsViewModel::class.java)
+
 
         toogle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.open, R.string.close)
         binding.drawerLayout.addDrawerListener(toogle)
