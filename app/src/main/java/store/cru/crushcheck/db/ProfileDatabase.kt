@@ -1,16 +1,14 @@
 package store.cru.crushcheck.db
 
 import android.content.Context
-import androidx.room.Database
-import androidx.room.Room
-import androidx.room.RoomDatabase
+import androidx.room.*
 import store.cru.crushcheck.models.UserProfile
 
 @Database(
     entities = [UserProfile::class],
     version = 1
 )
-abstract class ProfileDatabase() :RoomDatabase(){
+abstract class ProfileDatabase:RoomDatabase(){
 
     abstract fun getProfileDao(): ProfileDao
 

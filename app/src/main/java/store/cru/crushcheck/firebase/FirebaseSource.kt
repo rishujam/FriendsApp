@@ -51,6 +51,10 @@ class FirebaseSource {
         }catch (e:Exception){
             Log.e("FirebaseSource","UploadDP error: ${e.message}")
         }
+    }
 
+    suspend fun downloadDP(filename: String):ByteArray{
+        val maxDownloadSize = 5L * 1024 * 1024
+        return imageRef.child("profilePictures/$filename").getBytes(maxDownloadSize).await()
     }
 }
