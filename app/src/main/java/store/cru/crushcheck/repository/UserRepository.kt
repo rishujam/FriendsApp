@@ -9,6 +9,7 @@ import store.cru.crushcheck.models.UserProfile
 class UserRepository(
     val source:FirebaseSource,
     val db: ProfileDatabase
+    
 ) : ViewModel(){
 
     //Firebase
@@ -20,6 +21,7 @@ class UserRepository(
 
     suspend fun downloadDP(fileName: String)=
             source.downloadDP(fileName)
+
     //DB
     suspend fun saveProfile(profile:UserProfile) =
             db.getProfileDao().upsert(profile)
