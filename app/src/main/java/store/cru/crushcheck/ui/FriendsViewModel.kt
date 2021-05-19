@@ -6,7 +6,7 @@ import store.cru.crushcheck.models.UserProfile
 import store.cru.crushcheck.repository.UserRepository
 
 class FriendsViewModel(
-        val userRepository: UserRepository
+        private val userRepository: UserRepository
 ) :ViewModel() {
 
     //Firebase
@@ -19,7 +19,14 @@ class FriendsViewModel(
     suspend fun downloadDP(fileName: String)=
             userRepository.downloadDP(fileName)
 
+    suspend fun getLikedProfiles(username:String)=
+            userRepository.showLikedList(username)
+
+    suspend fun addToLikedList(list:ArrayList<String>,username: String)=
+            userRepository.addToLikedList(list,username)
+
     //DB
+
     suspend fun saveProfile(profile:UserProfile)=
             userRepository.saveProfile(profile)
 

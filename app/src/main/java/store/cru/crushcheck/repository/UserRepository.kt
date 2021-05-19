@@ -22,6 +22,12 @@ class UserRepository(
     suspend fun downloadDP(fileName: String)=
             source.downloadDP(fileName)
 
+    suspend fun addToLikedList(list:ArrayList<String>,username:String)=
+            source.addToLiked(list,username)
+
+    suspend fun showLikedList(username: String)=
+            source.readLikedList(username)
+
     //DB
     suspend fun saveProfile(profile:UserProfile) =
             db.getProfileDao().upsert(profile)

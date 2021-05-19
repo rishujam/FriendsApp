@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import android.util.Log
 import android.widget.Toast
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
@@ -18,7 +19,8 @@ import store.cru.crushcheck.models.UserProfile
 class FirebaseSource {
 
     private val userCollectionRef = Firebase.firestore.collection("users")
-    val imageRef = Firebase.storage.reference
+    private val likedProfileRef = Firebase.firestore.collection("likedProfiles")
+    private val imageRef = Firebase.storage.reference
 
     fun saveUserProfile(userProfile: UserProfile, context:Context) = CoroutineScope(Dispatchers.IO).launch {
         try {
@@ -56,5 +58,13 @@ class FirebaseSource {
     suspend fun downloadDP(filename: String):ByteArray{
         val maxDownloadSize = 5L * 1024 * 1024
         return imageRef.child("profilePictures/$filename").getBytes(maxDownloadSize).await()
+    }
+
+    suspend fun addToLiked(list:ArrayList<String>,profileUsername:String){
+        likedProfileRef.document(profileUsername).set(list, SetOptions.merge()).await()
+    }
+    suspend fun readLikedList(username:String):Any{
+        val querySnapshot = likedProfileRef.document(username).get().await()
+        return querySnapshot.get("list")!!
     }
 }

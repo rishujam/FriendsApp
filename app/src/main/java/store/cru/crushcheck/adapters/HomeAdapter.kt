@@ -3,6 +3,7 @@ package store.cru.crushcheck.adapters
 import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -13,10 +14,22 @@ import store.cru.crushcheck.firebase.FirebaseSource
 import java.lang.Exception
 
 class HomeAdapter(
-        private val users: List<UserProfile>
-) : RecyclerView.Adapter<HomeAdapter.UserViewHolder>(){
+        private val users: List<UserProfile>,
+        private val listener: OnItemClickListener
+):RecyclerView.Adapter<HomeAdapter.UserViewHolder>(){
 
-    inner class UserViewHolder(val binding:ItemUserBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class UserViewHolder(val binding:ItemUserBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener{
+
+        init {
+            binding.ibItemAdd.setOnClickListener(this)
+        }
+        override fun onClick(v: View?) {
+            val position = adapterPosition
+            if(position!=RecyclerView.NO_POSITION){
+                listener.onItemClick(position)
+            }
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         return UserViewHolder(ItemUserBinding.inflate(LayoutInflater.from(parent.context),parent,false))
@@ -44,5 +57,9 @@ class HomeAdapter(
 
     override fun getItemCount(): Int {
         return users.size
+    }
+
+    interface OnItemClickListener{
+        fun onItemClick(position: Int)
     }
 }
