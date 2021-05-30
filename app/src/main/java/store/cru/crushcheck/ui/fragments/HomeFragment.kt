@@ -18,11 +18,12 @@ import java.lang.Exception
 class HomeFragment : Fragment() , HomeAdapter.OnItemClickListener{
 
     override fun onItemClick(position: Int) {
+        val likedProfile = homeAdapter.users[position].instaName
+        val map :Map<String,String> = mapOf(likedProfile to likedProfile)
 
-        val list = ArrayList<String>()
         CoroutineScope(Dispatchers.IO).launch {
             try {
-                viewModel.addToLikedList(list,username)
+                viewModel.addToLikedList(map,username)
                 withContext(Dispatchers.Main){
                     Toast.makeText( context,"Profile Added to Liked List", Toast.LENGTH_SHORT).show()
                 }
@@ -58,7 +59,7 @@ class HomeFragment : Fragment() , HomeAdapter.OnItemClickListener{
     }
 
     private fun setupRecyclerView(list:ArrayList<UserProfile>){
-        //homeAdapter = HomeAdapter(list)
+        homeAdapter = HomeAdapter(list,this)
         binding.rvHome.apply {
             homeAdapter.notifyDataSetChanged()
             adapter = homeAdapter

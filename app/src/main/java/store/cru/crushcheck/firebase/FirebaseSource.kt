@@ -60,11 +60,11 @@ class FirebaseSource {
         return imageRef.child("profilePictures/$filename").getBytes(maxDownloadSize).await()
     }
 
-    suspend fun addToLiked(list:ArrayList<String>,profileUsername:String){
-        likedProfileRef.document(profileUsername).set(list, SetOptions.merge()).await()
+    suspend fun addToLiked(liked:Map<String,String>,profileUsername:String){
+        likedProfileRef.document(profileUsername).set(liked, SetOptions.merge()).await()
     }
-    suspend fun readLikedList(username:String):Any{
+    suspend fun readLikedList(username:String): MutableMap<String, Any>? {
         val querySnapshot = likedProfileRef.document(username).get().await()
-        return querySnapshot.get("list")!!
+        return querySnapshot.data
     }
 }

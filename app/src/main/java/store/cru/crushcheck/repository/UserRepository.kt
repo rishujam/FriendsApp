@@ -22,8 +22,8 @@ class UserRepository(
     suspend fun downloadDP(fileName: String)=
             source.downloadDP(fileName)
 
-    suspend fun addToLikedList(list:ArrayList<String>,username:String)=
-            source.addToLiked(list,username)
+    suspend fun addToLikedList(liked:Map<String,String>,username:String)=
+            source.addToLiked(liked,username)
 
     suspend fun showLikedList(username: String)=
             source.readLikedList(username)

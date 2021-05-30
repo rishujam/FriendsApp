@@ -22,8 +22,8 @@ class FriendsViewModel(
     suspend fun getLikedProfiles(username:String)=
             userRepository.showLikedList(username)
 
-    suspend fun addToLikedList(list:ArrayList<String>,username: String)=
-            userRepository.addToLikedList(list,username)
+    suspend fun addToLikedList(liked:Map<String,String>,username: String)=
+            userRepository.addToLikedList(liked,username)
 
     //DB
 

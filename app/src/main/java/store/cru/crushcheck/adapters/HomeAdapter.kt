@@ -14,7 +14,7 @@ import store.cru.crushcheck.firebase.FirebaseSource
 import java.lang.Exception
 
 class HomeAdapter(
-        private val users: List<UserProfile>,
+        val users: List<UserProfile>,
         private val listener: OnItemClickListener
 ):RecyclerView.Adapter<HomeAdapter.UserViewHolder>(){
 
