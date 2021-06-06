@@ -17,13 +17,23 @@ class FriendsViewModel(
         userRepository.uploadDP(fileName,uri)
 
     suspend fun downloadDP(fileName: String)=
-            userRepository.downloadDP(fileName)
+        userRepository.downloadDP(fileName)
 
     suspend fun getLikedProfiles(username:String)=
-            userRepository.showLikedList(username)
+        userRepository.showLikedList(username)
 
     suspend fun addToLikedList(liked:Map<String,String>,username: String)=
-            userRepository.addToLikedList(liked,username)
+        userRepository.addToLikedList(liked,username)
+
+    suspend fun instantCheck(likedUser:String,mainUser:String)=
+        userRepository.instantCheck(likedUser, mainUser)
+
+    suspend fun addToNotify(notifyingAccount:String, notifySendAccount:Map<String,String>){
+        userRepository.addToNotify(notifyingAccount,notifySendAccount)
+    }
+
+    suspend fun readNotify(accName:String)=
+        userRepository.readNotify(accName)
 
     //DB
 

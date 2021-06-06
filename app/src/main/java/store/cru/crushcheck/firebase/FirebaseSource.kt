@@ -20,6 +20,7 @@ class FirebaseSource {
 
     private val userCollectionRef = Firebase.firestore.collection("users")
     private val likedProfileRef = Firebase.firestore.collection("likedProfiles")
+    private val notifyRef = Firebase.firestore.collection("notify")
     private val imageRef = Firebase.storage.reference
 
     fun saveUserProfile(userProfile: UserProfile, context:Context) = CoroutineScope(Dispatchers.IO).launch {
@@ -67,4 +68,20 @@ class FirebaseSource {
         val querySnapshot = likedProfileRef.document(username).get().await()
         return querySnapshot.data
     }
+
+    suspend fun instantCheck(likedUser:String,mainUser:String):Boolean{
+        val querySnapshot = likedProfileRef.document(likedUser).get().await()
+        return querySnapshot.data?.contains(mainUser)==true
+    }
+
+    suspend fun addToNotify(notifyingAccount:String, notifySendAccount:Map<String,String>){
+        notifyRef.document(notifyingAccount).set(notifySendAccount).await()
+    }
+
+    suspend fun readNotification(accName:String) :MutableMap<String, Any>? {
+        val query = notifyRef.document(accName).get().await()
+        return query.data
+    }
+
+
 }

@@ -1,5 +1,6 @@
 package store.cru.crushcheck.ui.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,19 +14,30 @@ import store.cru.crushcheck.databinding.FragmentHomeBinding
 import store.cru.crushcheck.ui.FriendsViewModel
 import store.cru.crushcheck.adapters.HomeAdapter
 import store.cru.crushcheck.ui.HostActivity
+import store.cru.crushcheck.ui.dialogs.MatchedProfile
+import store.cru.crushcheck.ui.dialogs.NotifyDialog
 import java.lang.Exception
 
-class HomeFragment : Fragment() , HomeAdapter.OnItemClickListener{
+class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener{
 
     override fun onItemClick(position: Int) {
         val likedProfile = homeAdapter.users[position].instaName
-        val map :Map<String,String> = mapOf(likedProfile to likedProfile)
+        val map:Map<String,String> = mapOf(likedProfile to likedProfile)
 
         CoroutineScope(Dispatchers.IO).launch {
+            if(viewModel.instantCheck(likedProfile,username)){
+                viewModel.addToNotify(likedProfile, mapOf(username to username))
+                withContext(Dispatchers.Main){
+                    val dialog = MatchedProfile()
+                    withContext(Dispatchers.Main){
+                        dialog.show(childFragmentManager,"matched")
+                    }
+                }
+            }
             try {
                 viewModel.addToLikedList(map,username)
                 withContext(Dispatchers.Main){
-                    Toast.makeText( context,"Profile Added to Liked List", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context,"Profile Added to Liked List", Toast.LENGTH_SHORT).show()
                 }
             }catch (e:Exception){
                 withContext(Dispatchers.Main){
@@ -53,13 +65,17 @@ class HomeFragment : Fragment() , HomeAdapter.OnItemClickListener{
             withContext(Dispatchers.Main){
                 setupRecyclerView(users)
             }
-
+        }
+        binding.fbNotify.setOnClickListener {
+            val notifyDialog = NotifyDialog()
+            notifyDialog.show(childFragmentManager,"notifyDialog")
         }
         return binding.root
     }
 
     private fun setupRecyclerView(list:ArrayList<UserProfile>){
-        homeAdapter = HomeAdapter(list,this)
+
+        homeAdapter = HomeAdapter(list,this,username)
         binding.rvHome.apply {
             homeAdapter.notifyDataSetChanged()
             adapter = homeAdapter

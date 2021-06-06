@@ -15,7 +15,8 @@ import java.lang.Exception
 
 class HomeAdapter(
         val users: List<UserProfile>,
-        private val listener: OnItemClickListener
+        private val listener: OnItemClickListener,
+        val username:String
 ):RecyclerView.Adapter<HomeAdapter.UserViewHolder>(){
 
     inner class UserViewHolder(val binding:ItemUserBinding) : RecyclerView.ViewHolder(binding.root), View.OnClickListener{
@@ -37,7 +38,6 @@ class HomeAdapter(
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val source = FirebaseSource()
-
         holder.binding.apply {
             tvItemName.text = users[position].name
             tvItemUsername.text = users[position].instaName

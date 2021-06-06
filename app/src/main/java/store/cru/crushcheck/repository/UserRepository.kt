@@ -20,13 +20,23 @@ class UserRepository(
         source.uploadDP(fileName,uri)
 
     suspend fun downloadDP(fileName: String)=
-            source.downloadDP(fileName)
+        source.downloadDP(fileName)
 
     suspend fun addToLikedList(liked:Map<String,String>,username:String)=
-            source.addToLiked(liked,username)
+        source.addToLiked(liked,username)
 
-    suspend fun showLikedList(username: String)=
-            source.readLikedList(username)
+    suspend fun showLikedList(username: String) =
+        source.readLikedList(username)
+
+    suspend fun instantCheck(likedUser:String,mainUser:String)=
+        source.instantCheck(likedUser, mainUser)
+
+    suspend fun addToNotify(notifyingAccount:String, notifySendAccount:Map<String,String>){
+        source.addToNotify(notifyingAccount,notifySendAccount)
+    }
+
+    suspend fun readNotify(accName:String)=
+        source.readNotification(accName)
 
     //DB
     suspend fun saveProfile(profile:UserProfile) =
