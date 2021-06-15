@@ -3,12 +3,11 @@
 
     <item
         android:id="@+id/miHome"
-        android:title="Home" />
+        android:title="Explore" />
     <item
         android:id="@+id/miLikeList"
         android:title="LikedList"/>
     <item
         android:id="@+id/miMessages"
         android:title="Messages"/>
-
 </menu>

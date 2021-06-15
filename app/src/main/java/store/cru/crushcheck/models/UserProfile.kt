@@ -12,5 +12,7 @@ data class UserProfile(
         val instaName:String ="",
         val phone:String="",
         val name:String="",
-        val bio:String=""
+        val bio:String="",
+        val gender:String="",
+        val city:String =""
 )
