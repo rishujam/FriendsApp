@@ -38,6 +38,15 @@ class UserRepository(
     suspend fun readNotify(accName:String)=
         source.readNotification(accName)
 
+    suspend fun deleteNotify(accName:String)=
+        source.deleteNotify(accName)
+
+    suspend fun addToOldNotify(accName: String,notifySendAccount:Map<String,String>)=
+        source.addToOldNotify(accName,notifySendAccount)
+
+    suspend fun readOldNotify(accName: String)=
+        source.readOldNotification(accName)
+
     //DB
     suspend fun saveProfile(profile:UserProfile) =
             db.getProfileDao().upsert(profile)

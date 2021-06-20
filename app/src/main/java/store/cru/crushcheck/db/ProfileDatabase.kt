@@ -6,7 +6,7 @@ import store.cru.crushcheck.models.UserProfile
 
 @Database(
     entities = [UserProfile::class],
-    version = 1
+    version = 2
 )
 abstract class ProfileDatabase:RoomDatabase(){
 

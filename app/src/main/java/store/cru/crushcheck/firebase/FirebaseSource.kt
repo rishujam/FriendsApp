@@ -21,6 +21,7 @@ class FirebaseSource {
     private val userCollectionRef = Firebase.firestore.collection("users")
     private val likedProfileRef = Firebase.firestore.collection("likedProfiles")
     private val notifyRef = Firebase.firestore.collection("notify")
+    private val oldNotifyRef = Firebase.firestore.collection("oldnotify")
     private val imageRef = Firebase.storage.reference
 
     fun saveUserProfile(userProfile: UserProfile, context:Context) = CoroutineScope(Dispatchers.IO).launch {
@@ -80,6 +81,19 @@ class FirebaseSource {
 
     suspend fun readNotification(accName:String) :MutableMap<String, Any>? {
         val query = notifyRef.document(accName).get().await()
+        return query.data
+    }
+
+    suspend fun deleteNotify(accName:String){
+        notifyRef.document(accName).delete().await()
+    }
+
+    suspend fun addToOldNotify(accName:String,notifySendAccount:Map<String,String>){
+        oldNotifyRef.document(accName).set(notifySendAccount, SetOptions.merge()).await()
+    }
+
+    suspend fun readOldNotification(accName: String): MutableMap<String,Any>?{
+        val query = oldNotifyRef.document(accName).get().await()
         return query.data
     }
 

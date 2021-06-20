@@ -35,11 +35,19 @@ class FriendsViewModel(
     suspend fun readNotify(accName:String)=
         userRepository.readNotify(accName)
 
+    suspend fun deleteNotify(accName: String)=
+        userRepository.deleteNotify(accName)
+
+    suspend fun addToOldNotify(accName: String,notifySendAccount:Map<String,String>)=
+        userRepository.addToOldNotify(accName,notifySendAccount)
+
+    suspend fun readOldNotify(accName: String)=
+        userRepository.readOldNotify(accName)
+
     //DB
-
     suspend fun saveProfile(profile:UserProfile)=
-            userRepository.saveProfile(profile)
+        userRepository.saveProfile(profile)
 
-    suspend fun getProfile() =
-            userRepository.getProfile()
+    suspend fun getProfile()=
+        userRepository.getProfile()
 }

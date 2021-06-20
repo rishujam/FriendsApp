@@ -5,17 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/likedIv"
-        android:layout_width="100dp"
+        android:layout_width="80dp"
         android:layout_height="100dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
+        android:elevation="12dp"
+        android:src="@drawable/person"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/purple_200"/>
 
     <TextView
         android:id="@+id/likedName"

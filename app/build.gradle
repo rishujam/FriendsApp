@@ -71,4 +71,7 @@ dependencies {
     kapt "androidx.room:room-compiler:2.3.0"
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.3.0"
+
+    //circular imageView
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
 }

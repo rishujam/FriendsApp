@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.*
+import store.cru.crushcheck.R
 import store.cru.crushcheck.models.UserProfile
 import store.cru.crushcheck.databinding.FragmentHomeBinding
 import store.cru.crushcheck.ui.FriendsViewModel
@@ -24,27 +25,39 @@ class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener{
         val likedProfile = homeAdapter.users[position].instaName
         val map:Map<String,String> = mapOf(likedProfile to likedProfile)
 
-        CoroutineScope(Dispatchers.IO).launch {
-            if(viewModel.instantCheck(likedProfile,username)){
-                viewModel.addToNotify(likedProfile, mapOf(username to username))
-                withContext(Dispatchers.Main){
-                    val dialog = MatchedProfile()
+        val builder= AlertDialog.Builder(context)
+        builder.setTitle("Add to Liked list")
+        builder.setMessage("Person will get to know that you added his/her profile to liked list only when they also add your profile to liked list.")
+        builder.setIcon(R.drawable.ic_bookmark)
+        builder.setPositiveButton("Add"){dialogInterface, which ->
+            CoroutineScope(Dispatchers.IO).launch {
+                if(viewModel.instantCheck(likedProfile,username)){
+                    viewModel.addToNotify(likedProfile, mapOf(username to username))
                     withContext(Dispatchers.Main){
-                        dialog.show(childFragmentManager,"matched")
+                        val dialog = MatchedProfile()
+                        withContext(Dispatchers.Main){
+                            dialog.show(childFragmentManager,"matched")
+                        }
+                    }
+                }
+                try {
+                    viewModel.addToLikedList(map,username)
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(context,"Profile Added to Liked List", Toast.LENGTH_SHORT).show()
+                    }
+                }catch (e:Exception){
+                    withContext(Dispatchers.Main){
+                        Toast.makeText( context,"Error Adding: ${e.message}", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
-            try {
-                viewModel.addToLikedList(map,username)
-                withContext(Dispatchers.Main){
-                    Toast.makeText(context,"Profile Added to Liked List", Toast.LENGTH_SHORT).show()
-                }
-            }catch (e:Exception){
-                withContext(Dispatchers.Main){
-                    Toast.makeText( context,"Error Adding: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
-            }
         }
+        builder.setNegativeButton("Cancel"){ dialogInterface, which ->
+        }
+        val alertDialog:AlertDialog = builder.create()
+        alertDialog.setCancelable(false)
+        alertDialog.show()
+
     }
 
     private var _binding: FragmentHomeBinding? = null

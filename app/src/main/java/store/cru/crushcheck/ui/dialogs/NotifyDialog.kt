@@ -23,7 +23,9 @@ class NotifyDialog :DialogFragment() {
     private val binding get() = _binding!!
     private lateinit var viewModel: FriendsViewModel
     private lateinit var accName:String
-    private lateinit var notifications :List<String>
+    private lateinit var notifyAdapter: NotificationAdapter
+    private lateinit var notificationsList :List<String>
+    private var notifications: MutableMap<String,Any>? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,9 +37,10 @@ class NotifyDialog :DialogFragment() {
         CoroutineScope(Dispatchers.IO).launch {
             accName = viewModel.getProfile()[0].instaName
             try {
-                notifications = viewModel.readNotify(accName)?.values?.toList() as List<String>
+                notifications = viewModel.readNotify(accName)
+                notificationsList = notifications?.values?.toList() as List<String>
                 withContext(Dispatchers.Main){
-                    val notifyAdapter = NotificationAdapter(notifications)
+                    notifyAdapter = NotificationAdapter(notificationsList)
                     binding.rvNotifyShow.apply {
                         adapter = notifyAdapter
                         layoutManager = LinearLayoutManager(activity)
@@ -46,6 +49,51 @@ class NotifyDialog :DialogFragment() {
             }catch (e:Exception){
                 withContext(Dispatchers.Main){
                     Toast.makeText(context,"No Notifications",Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+        binding.tvMarkRead.setOnClickListener {
+            val list  = listOf<String>()
+            notifyAdapter = NotificationAdapter(list)
+            binding.rvNotifyShow.apply {
+                adapter = notifyAdapter
+                layoutManager = LinearLayoutManager(activity)
+            }
+            val notificationsMap = notifications as Map<String,String>
+            notifyAdapter.notifyDataSetChanged()
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    viewModel.addToOldNotify(accName,notificationsMap)
+                }catch (e:Exception){
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(context,e.message,Toast.LENGTH_LONG).show()
+                    }
+                }
+                try {
+                    viewModel.deleteNotify(accName)
+                }catch (e:Exception){
+                    withContext(Dispatchers.IO){
+                        Toast.makeText(context,e.message,Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+        }
+        binding.btnOldNotify.setOnClickListener{
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val oldNotification = viewModel.readOldNotify(accName)?.values?.toList() as List<String>
+                    notifyAdapter = NotificationAdapter(oldNotification)
+                    withContext(Dispatchers.Main){
+                        binding.rvNotifyShow.apply {
+                            adapter = notifyAdapter
+                            layoutManager = LinearLayoutManager(activity)
+                        }
+                    }
+                }catch (e:Exception){
+                    withContext(Dispatchers.Main){
+                        Toast.makeText(context,e.message,Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         }

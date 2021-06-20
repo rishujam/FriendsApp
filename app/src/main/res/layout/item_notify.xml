@@ -9,11 +9,11 @@
         android:id="@+id/tvNotifyShow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
+        android:paddingStart="8dp"
         android:paddingTop="16dp"
         android:text="TextView"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -23,9 +23,10 @@
         android:layout_height="wrap_content"
         android:paddingTop="16dp"
         android:paddingStart="4dp"
+        android:paddingEnd="8dp"
         android:text="recently added you to liked list."
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="14sp"
         app:layout_constraintStart_toEndOf="@+id/tvNotifyShow"
         app:layout_constraintTop_toTopOf="parent" />
 
